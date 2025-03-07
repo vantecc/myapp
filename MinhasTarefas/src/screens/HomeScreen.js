@@ -18,12 +18,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F7941D',
+    backgroundColor: '#fff',
   },
   text: {
     fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: '#F7941D'
   },
   button: {
     backgroundColor: '#004A8D',

@@ -142,8 +142,6 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
 
-
-
   clearButton: {
     backgroundColor: '#f7941d',
     padding: 12,
@@ -203,11 +201,11 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#F7941D',
   },
   taskButtons: {
     flexDirection: 'row',
-    gap: 10,
+    gap: 7,
   },
   editButton: {
     backgroundColor: '#F7941D',
