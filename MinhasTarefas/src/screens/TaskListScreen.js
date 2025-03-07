@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { 
   View, Text, FlatList, TextInput, TouchableOpacity, StyleSheet, 
-  Keyboard, TouchableWithoutFeedback, useColorScheme 
+  Keyboard, TouchableWithoutFeedback, Animated, Easing 
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default function TaskListScreen() {
-  const theme = useColorScheme();
-  const isDarkMode = theme === 'dark';
-
-  // Aplicando os estilos de acordo com o tema
-  const styles = getStyles(isDarkMode);
-
   const [tasks, setTasks] = useState([]);
   const [taskInput, setTaskInput] = useState('');
   const [editingTask, setEditingTask] = useState(null);
+  const fadeAnim = useState(new Animated.Value(0))[0];
+
+  useEffect(() => {
+    loadTasksFromStorage();
+    Animated.timing(fadeAnim, {
+      toValue: 2,
+      duration: 1400,
+      easing: Easing.ease,
+      useNativeDriver: true
+    }).start();
+  }, []);
 
   const saveTasksToStorage = async (tasks) => {
     try {
@@ -35,10 +40,6 @@ export default function TaskListScreen() {
       console.error('Erro ao carregar tarefas:', error);
     }
   };
-
-  useEffect(() => {
-    loadTasksFromStorage();
-  }, []);
 
   const addTask = () => {
     if (taskInput.trim() === '') return;
@@ -72,8 +73,11 @@ export default function TaskListScreen() {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={styles.container}>
-        <Text style={styles.title}>Minhas Tarefas 📝</Text>
+      <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
+        
+        <View style={styles.header}>
+          <Text style={styles.headerText}>Minhas Tarefas</Text>
+        </View>
 
         <TouchableOpacity style={styles.clearButton} onPress={clearAllTasks}>
           <Text style={styles.clearButtonText}>🗑️ Limpar Tudo</Text>
@@ -82,13 +86,13 @@ export default function TaskListScreen() {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Adicionar ou editar tarefa..."
+            placeholder="Adicionar uma nova tarefa..."
             value={taskInput}
             onChangeText={setTaskInput}
-            placeholderTextColor={isDarkMode ? '#bbb' : '#888'} // Corrige a cor do placeholder
+            placeholderTextColor="#bbb"
           />
           <TouchableOpacity style={styles.addButton} onPress={addTask}>
-            <Icon name={editingTask ? 'save' : 'add'} size={20} color="#fff" />
+            <Icon name={editingTask ? 'save' : 'add'} size={24} color="#fff" />
           </TouchableOpacity>
         </View>
 
@@ -97,40 +101,48 @@ export default function TaskListScreen() {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={styles.taskItem}>
+              <View style={styles.taskIcon}>
+                <Icon name="check-circle" size={24} color="#6200ee" />
+              </View>
               <Text style={styles.taskText}>{item.text}</Text>
               <View style={styles.taskButtons}>
                 <TouchableOpacity onPress={() => editTask(item)} style={styles.editButton}>
-                  <Icon name="edit" size={20} color="#fff" />
+                  <Icon name="edit" size={22} color="#fff" />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => removeTask(item.id)} style={styles.deleteButton}>
-                  <Icon name="delete" size={20} color="#fff" />
+                  <Icon name="delete" size={22} color="#fff" />
                 </TouchableOpacity>
               </View>
             </View>
           )}
         />
-      </View>
+      </Animated.View>
     </TouchableWithoutFeedback>
   );
 }
 
-// **Estilos adaptáveis ao modo escuro**
-const getStyles = (isDarkMode) => StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    paddingTop: 50, 
-    backgroundColor: isDarkMode ? '#121212' : '#f4f4f4',
+    backgroundColor: 'orange',
+    paddingHorizontal: 20,
+    paddingTop: 0,
   },
-  title: {
-    fontSize: 26,
+  header: {
+    backgroundColor: '#6200ee',
+    paddingVertical: 50,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    alignItems: 'center',
+    marginBottom: 5,
+  },
+  headerText: {
+    fontSize: 24,
     fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-    color: isDarkMode ? '#fff' : '#333',
+    color: '#fff',
   },
   clearButton: {
-    backgroundColor: '#d9534f',
+    backgroundColor: '#ff3b30',
     padding: 12,
     borderRadius: 8,
     alignItems: 'center',
@@ -138,56 +150,56 @@ const getStyles = (isDarkMode) => StyleSheet.create({
   },
   clearButtonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
-    backgroundColor: isDarkMode ? '#333' : '#fff',
-    borderRadius: 10,
-    paddingHorizontal: 10,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    paddingHorizontal: 15,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 5, 
+    elevation: 3,
+    marginBottom: 20,
   },
   input: {
     flex: 1,
     height: 50,
-    borderWidth: 0,
-    backgroundColor: isDarkMode ? '#444' : '#fff',
-    paddingHorizontal: 10,
-    fontSize: 16,
-    color: isDarkMode ? '#fff' : '#333',
+    fontSize: 20,
+    color: '#333',
   },
   addButton: {
     backgroundColor: '#6200ee',
-    borderRadius: 8,
-    padding: 10,
+    borderRadius: 10,
+    padding: 8,
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 10,
   },
   taskItem: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: isDarkMode ? '#333' : '#fff',
+    backgroundColor: '#fff',
     padding: 15,
     marginBottom: 10,
-    borderRadius: 10,
+    borderRadius: 15,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 3,
+    elevation: 2,
+  },
+  taskIcon: {
+    marginRight: 10,
   },
   taskText: {
+    flex: 1,
     fontSize: 18,
-    color: isDarkMode ? '#fff' : '#333',
+    color: '#333',
   },
   taskButtons: {
     flexDirection: 'row',
@@ -207,8 +219,5 @@ const getStyles = (isDarkMode) => StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-  },
 });
+
