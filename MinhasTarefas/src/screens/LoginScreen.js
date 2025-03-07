@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
 
 export default function LoginScreen({ navigation }) {
   const [username, setUsername] = useState('');
@@ -15,6 +15,10 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      
+    
+      <Image source={require('../../assets/senac-logo.png')} style={styles.logo} />
+      
       <Text style={styles.title}>LOGIN</Text>
 
       <TextInput
@@ -46,34 +50,46 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'orange',
+    backgroundColor: '#fff',
+    paddingHorizontal: 20,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  logo: {
+    width: 550, 
+    height: 400,
+    resizeMode: 'contain',
     marginBottom: 20,
   },
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#F7941D',
+    fontWeight: 'bold',
+  },
   input: {
-    width: '80%',
-    height: 40,
+    width: '100%',
+    height: 50,
     backgroundColor: '#fff',
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 10,
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    marginBottom: 15,
+    fontSize: 16,
+    color: '#333',
     borderWidth: 1,
     borderColor: '#ddd',
   },
   button: {
-    width: '80%',
-    height: 40,
-    backgroundColor: '#6200ee',
+    width: '100%',
+    height: 50,
+    backgroundColor: '#004A8D',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 5,
+    borderRadius: 8,
     marginTop: 10,
   },
   buttonText: {
     color: '#fff',
+    fontSize: 25,
     fontWeight: 'bold',
   },
 });

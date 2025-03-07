@@ -18,21 +18,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'orange',
+    backgroundColor: '#F7941D',
   },
   text: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 20,
   },
   button: {
-    backgroundColor: '#6200ee',
+    backgroundColor: '#004A8D',
     padding: 15,
     borderRadius: 5,
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 25,
     fontWeight: 'bold',
   },
 });

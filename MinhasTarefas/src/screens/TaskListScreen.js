@@ -124,12 +124,12 @@ export default function TaskListScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'orange',
+    backgroundColor: '#FDC180',
     paddingHorizontal: 20,
     paddingTop: 0,
   },
   header: {
-    backgroundColor: '#6200ee',
+    backgroundColor: '#004A8D',
     paddingVertical: 50,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
@@ -141,8 +141,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
   },
+
+
+
   clearButton: {
-    backgroundColor: '#ff3b30',
+    backgroundColor: '#f7941d',
     padding: 12,
     borderRadius: 8,
     alignItems: 'center',
@@ -173,7 +176,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   addButton: {
-    backgroundColor: '#6200ee',
+    backgroundColor: '#004A8D',
     borderRadius: 10,
     padding: 8,
     justifyContent: 'center',
@@ -198,7 +201,8 @@ const styles = StyleSheet.create({
   },
   taskText: {
     flex: 1,
-    fontSize: 18,
+    fontSize: 22,
+    fontWeight: 'bold',
     color: '#333',
   },
   taskButtons: {
@@ -206,7 +210,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   editButton: {
-    backgroundColor: '#ffa500',
+    backgroundColor: '#F7941D',
     padding: 10,
     borderRadius: 8,
     justifyContent: 'center',
